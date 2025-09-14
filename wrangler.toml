@@ -4,16 +4,18 @@ compatibility_date = "2024-05-23"
 minify = true
 workers_dev = true
 
-
+zone_id = "b11322183b1d086e0221289cd6ed044f"
 routes = [
-
-  { pattern = "afrcloud.biz.id", custom_domain = true },
-  { pattern = "support.zoom.us.afrcloud.biz.id", custom_domain = true },
-  { pattern = "ava.game.naver.com.afrcloud.biz.id", custom_domain = true },
-  { pattern = "graph.instagram.com.afrcloud.biz.id", custom_domain = true },
-  { pattern = "df.game.naver.com.afrcloud.biz.id", custom_domain = true },
-  { pattern = "zoomgov.com.afrcloud.biz.id", custom_domain = true }
-  ]
+  { pattern = "nix.biz.id", custom_domain = true },
+  { pattern = "support.zoom.us.nix.biz.id", custom_domain = true },
+  { pattern = "ava.game.naver.com.nix.biz.id", custom_domain = true },
+  { pattern = "graph.instagram.com.nix.biz.id", custom_domain = true },
+  { pattern = "df.game.naver.com.nix.biz.id", custom_domain = true },
+  { pattern = "zoomgov.com.nix.biz.id", custom_domain = true },
+  { pattern = "space.byu.id.nix.biz.id", custom_domain = true },
+  { pattern = "www.byu.id.nix.biz.id", custom_domain = true },
+  { pattern = "staging-csn.cancer.org.nix.biz.id", custom_domain = true }
+]
 
 [[kv_namespaces]]
 binding = "SIREN"
@@ -27,7 +29,7 @@ build = { command = "cargo install -q worker-build && worker-build --dev" }
 
 [vars]
 UUID = "bbbbbbbb-cccc-4ddd-eeee-ffffffffffff"
-MAIN_PAGE_URL = "https://raw.githubusercontent.com/AFRcloud/SirenWeb/refs/heads/main/web/index.html"
-SUB_PAGE_URL = "https://raw.githubusercontent.com/AFRcloud/SirenWeb/refs/heads/main/web/sub.html"
-LINK_PAGE_URL = "https://raw.githubusercontent.com/AFRcloud/SirenWeb/refs/heads/main/web/link.html"
-CONVERTER_PAGE_URL = "https://raw.githubusercontent.com/AFRcloud/SirenWeb/refs/heads/main/web/converter.html"
+MAIN_PAGE_URL = "https://raw.githubusercontent.com/nix/SirenWeb/refs/heads/main/web/index.html"
+SUB_PAGE_URL = "https://raw.githubusercontent.com/nix/SirenWeb/refs/heads/main/web/sub.html"
+LINK_PAGE_URL = "https://raw.githubusercontent.com/nix/SirenWeb/refs/heads/main/web/link.html"
+CONVERTER_PAGE_URL = "https://raw.githubusercontent.com/nix/SirenWeb/refs/heads/main/web/converter.html"

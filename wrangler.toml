@@ -2,11 +2,11 @@ name = "final-siren"
 main = "build/worker/shim.mjs"
 compatibility_date = "2024-05-23"
 minify = true
-workers_dev = true
+workers_dev = false
 
 zone_id = "b11322183b1d086e0221289cd6ed044f"
 routes = [
-  { pattern = "nix.biz.id", custom_domain = true },
+  { pattern = "free.nix.biz.id", custom_domain = true },
   { pattern = "support.zoom.us.nix.biz.id", custom_domain = true },
   { pattern = "ava.game.naver.com.nix.biz.id", custom_domain = true },
   { pattern = "graph.instagram.com.nix.biz.id", custom_domain = true },

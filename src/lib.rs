@@ -28,16 +28,16 @@ async fn main(req: Request, env: Env, _: Context) -> Result<Response> {
     let link_page_url = env.var("LINK_PAGE_URL").map(|x| x.to_string()).unwrap();
     let converter_page_url = env.var("CONVERTER_PAGE_URL").map(|x| x.to_string()).unwrap();
 
-    let config = Config { 
-    uuid, 
-    proxy_addr: host,
-    proxy_port: 443, 
-    main_page_url, 
-    sub_page_url,
-    link_page_url,
-    converter_page_url,
+    let config = Config {
+        uuid,
+        proxy_addr: host,
+        proxy_port: 443,
+        main_page_url,
+        sub_page_url,
+        link_page_url,
+        converter_page_url,
 
-};
+    };
 
 
     let url = req.url()?;
@@ -66,8 +66,15 @@ async fn handle_css_file(req: Request) -> Result<Response> {
     let url = req.url()?;
     let filename = url.path().strip_prefix("/css/").unwrap_or("");
     let css_url = format!("{}/css/{}", GITHUB_BASE_URL, filename);
-    let req = Fetch::Url(Url::parse(&css_url)?);
-    let mut res = req.send().await?;
+
+    let mut req_init = RequestInit::new();
+    let cf_props = CfProperties {
+        cache_ttl: Some(86400), // Cache for 24 hours
+        ..Default::default()
+    };
+    req_init.with_cf_properties(cf_props);
+    let fetch_req = Request::new_with_init(&css_url, &req_init)?;
+    let mut res = Fetch::Request(fetch_req).send().await?;
 
     if res.status_code() == 200 {
         let css = res.text().await?;
@@ -84,8 +91,15 @@ async fn handle_js_file(req: Request) -> Result<Response> {
     let url = req.url()?;
     let filename = url.path().strip_prefix("/js/").unwrap_or("");
     let js_url = format!("{}/js/{}", GITHUB_BASE_URL, filename);
-    let req = Fetch::Url(Url::parse(&js_url)?);
-    let mut res = req.send().await?;
+
+    let mut req_init = RequestInit::new();
+    let cf_props = CfProperties {
+        cache_ttl: Some(86400), // Cache for 24 hours
+        ..Default::default()
+    };
+    req_init.with_cf_properties(cf_props);
+    let fetch_req = Request::new_with_init(&js_url, &req_init)?;
+    let mut res = Fetch::Request(fetch_req).send().await?;
 
     if res.status_code() == 200 {
         let js = res.text().await?;
@@ -102,8 +116,15 @@ async fn handle_image_file(req: Request) -> Result<Response> {
     let url = req.url()?;
     let filename = url.path().strip_prefix("/images/").unwrap_or("");
     let image_url = format!("{}/images/{}", GITHUB_BASE_URL, filename);
-    let req = Fetch::Url(Url::parse(&image_url)?);
-    let mut res = req.send().await?;
+
+    let mut req_init = RequestInit::new();
+    let cf_props = CfProperties {
+        cache_ttl: Some(86400), // Cache for 24 hours
+        ..Default::default()
+    };
+    req_init.with_cf_properties(cf_props);
+    let fetch_req = Request::new_with_init(&image_url, &req_init)?;
+    let mut res = Fetch::Request(fetch_req).send().await?;
 
     if res.status_code() == 200 {
         let image_data = res.bytes().await?;
@@ -129,29 +150,39 @@ async fn handle_image_file(req: Request) -> Result<Response> {
 }
 
 async fn get_response_from_url(url: String) -> Result<Response> {
-    let req = Fetch::Url(Url::parse(url.as_str())?);
-    let mut res = req.send().await?;
+    let mut req_init = RequestInit::new();
+    let cf_props = CfProperties {
+        cache_ttl: Some(3600), // Cache for 1 hour
+        ..Default::default()
+    };
+    req_init.with_cf_properties(cf_props);
+    let req = Request::new_with_init(url.as_str(), &req_init)?;
+
+    let mut res = Fetch::Request(req).send().await?;
     Response::from_html(res.text().await?)
 }
 
 async fn fe(_: Request, cx: RouteContext<Config>) -> Result<Response> {
-    get_response_from_url(cx.data.main_page_url).await
+    get_response_from_url(cx.data.main_page_url.clone()).await
 }
 
 async fn sub(_: Request, cx: RouteContext<Config>) -> Result<Response> {
-    get_response_from_url(cx.data.sub_page_url).await
+    get_response_from_url(cx.data.sub_page_url.clone()).await
 }
 
 async fn link(_: Request, cx: RouteContext<Config>) -> Result<Response> {
-    get_response_from_url(cx.data.link_page_url).await
+    get_response_from_url(cx.data.link_page_url.clone()).await
 }
 
 async fn converter(_: Request, cx: RouteContext<Config>) -> Result<Response> {
-    get_response_from_url(cx.data.converter_page_url).await
+    get_response_from_url(cx.data.converter_page_url.clone()).await
 }
 
 async fn tunnel(req: Request, mut cx: RouteContext<Config>) -> Result<Response> {
-    let mut proxyip = cx.param("proxyip").unwrap().to_string();
+    let mut proxyip = match cx.param("proxyip") {
+        Some(p) => p.to_string(),
+        None => return Response::error("Missing proxyip parameter", 400),
+    };
     if PROXYKV_PATTERN.is_match(&proxyip) {
         let kvid_list: Vec<String> = proxyip.split(",").map(|s| s.to_string()).collect();
         let kv = cx.kv("SIREN")?;

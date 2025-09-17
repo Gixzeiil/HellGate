@@ -22,10 +22,10 @@ binding = "SIREN"
 id = "6c68f7e475004d49812776517b68f1c6"
 
 [build]
-command = "cargo install -q worker-build && worker-build --release"
+command = "cargo install -q worker-build --version 0.1.4 --force && WASMOPT=0 worker-build --release"
 
 [env.dev]
-build = { command = "cargo install -q worker-build && worker-build --dev" }
+build = { command = "cargo install -q worker-build --version 0.1.4 --force && WASMOPT=0 worker-build --dev" }
 
 [vars]
 UUID = "bbbbbbbb-cccc-4ddd-eeee-ffffffffffff"

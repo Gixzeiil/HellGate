@@ -78,7 +78,7 @@ async fn handle_css_file(req: Request) -> Result<Response> {
 
     if res.status_code() == 200 {
         let css = res.text().await?;
-        let mut headers = Headers::new();
+        let headers = Headers::new();
         headers.set("Content-Type", "text/css")?;
         headers.set("Cache-Control", "public, max-age=86400")?;
         Ok(Response::ok(css)?.with_headers(headers))
@@ -103,7 +103,7 @@ async fn handle_js_file(req: Request) -> Result<Response> {
 
     if res.status_code() == 200 {
         let js = res.text().await?;
-        let mut headers = Headers::new();
+        let headers = Headers::new();
         headers.set("Content-Type", "application/javascript")?;
         headers.set("Cache-Control", "public, max-age=86400")?;
         Ok(Response::ok(js)?.with_headers(headers))
@@ -128,7 +128,7 @@ async fn handle_image_file(req: Request) -> Result<Response> {
 
     if res.status_code() == 200 {
         let image_data = res.bytes().await?;
-        let mut headers = Headers::new();
+        let headers = Headers::new();
 
         if filename.ends_with(".png") {
             headers.set("Content-Type", "image/png")?;

@@ -17,14 +17,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install Rust and wasm-bindgen-cli
+      - name: Install Rust
         run: |
           rustup update
           rustup target add wasm32-unknown-unknown
-          cargo install -q wasm-bindgen-cli --version 0.2.102
 
       - name: Install worker-build
-        run: cargo install -q worker-build
+        # run: cargo install -q worker-build
+        run: cargo install -q worker-build --version 0.1.4 --force
 
       - name: Build with worker-build (no wasm-opt)
         run: WASMOPT=0 worker-build --release

@@ -22,13 +22,6 @@ jobs:
           rustup update
           rustup target add wasm32-unknown-unknown
 
-      - name: Install worker-build
-        # run: cargo install -q worker-build
-        run: cargo install -q worker-build --version 0.1.4 --force
-
-      - name: Build with worker-build (no wasm-opt)
-        run: WASMOPT=0 worker-build --release
-
       - name: Deploy to Cloudflare Workers
         uses: cloudflare/wrangler-action@v3
         with:

@@ -29,10 +29,10 @@ build = { command = "cargo install -q worker-build --version 0.1.4 --force && WA
 
 [vars]
 UUID = "bbbbbbbb-cccc-4ddd-eeee-ffffffffffff"
-MAIN_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/web/index.html"
-SUB_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/web/sub.html"
-LINK_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/web/link.html"
-CONVERTER_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/web/converter.html"
+MAIN_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/index.html"
+SUB_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/sub.html"
+LINK_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/link.html"
+CONVERTER_PAGE_URL = "https://raw.githubusercontent.com/eikarna/SirenWeb/refs/heads/main/converter.html"
 
 [observability.logs]
 enabled = true

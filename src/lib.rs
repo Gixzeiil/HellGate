@@ -66,20 +66,13 @@ async fn handle_css_file(req: Request) -> Result<Response> {
     let filename = url.path().strip_prefix("/css/").unwrap_or("");
     let css_url = format!("{}/css/{}", GITHUB_BASE_URL, filename);
 
-    let mut req_init = RequestInit::new();
-    let cf_props = CfProperties {
-        cache_ttl: Some(86400), // Cache for 24 hours
-        ..Default::default()
-    };
-    req_init.with_cf_properties(cf_props);
-    let fetch_req = Request::new_with_init(&css_url, &req_init)?;
+    let fetch_req = Request::new(&css_url, Method::Get)?;
     let mut res = Fetch::Request(fetch_req).send().await?;
 
     if res.status_code() == 200 {
         let css = res.text().await?;
         let headers = Headers::new();
         headers.set("Content-Type", "text/css")?;
-        headers.set("Cache-Control", "public, max-age=86400")?;
         Ok(Response::ok(css)?.with_headers(headers))
     } else {
         Response::error("CSS file not found", 404)
@@ -91,20 +84,13 @@ async fn handle_js_file(req: Request) -> Result<Response> {
     let filename = url.path().strip_prefix("/js/").unwrap_or("");
     let js_url = format!("{}/js/{}", GITHUB_BASE_URL, filename);
 
-    let mut req_init = RequestInit::new();
-    let cf_props = CfProperties {
-        cache_ttl: Some(86400), // Cache for 24 hours
-        ..Default::default()
-    };
-    req_init.with_cf_properties(cf_props);
-    let fetch_req = Request::new_with_init(&js_url, &req_init)?;
+    let fetch_req = Request::new(&js_url, Method::Get)?;
     let mut res = Fetch::Request(fetch_req).send().await?;
 
     if res.status_code() == 200 {
         let js = res.text().await?;
         let headers = Headers::new();
         headers.set("Content-Type", "application/javascript")?;
-        headers.set("Cache-Control", "public, max-age=86400")?;
         Ok(Response::ok(js)?.with_headers(headers))
     } else {
         Response::error("JavaScript file not found", 404)
@@ -149,13 +135,7 @@ async fn handle_image_file(req: Request) -> Result<Response> {
 }
 
 async fn get_response_from_url(url: String) -> Result<Response> {
-    let mut req_init = RequestInit::new();
-    let cf_props = CfProperties {
-        cache_ttl: Some(3600), // Cache for 1 hour
-        ..Default::default()
-    };
-    req_init.with_cf_properties(cf_props);
-    let req = Request::new_with_init(url.as_str(), &req_init)?;
+    let req = Request::new(url.as_str(), Method::Get)?;
 
     let mut res = Fetch::Request(req).send().await?;
     Response::from_html(res.text().await?)

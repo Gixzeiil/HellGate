@@ -4,17 +4,36 @@ compatibility_date = "2025-09-01"
 minify = true
 workers_dev = false
 
-zone_id = "b11322183b1d086e0221289cd6ed044f"
 routes = [
+  # Main Domain
   { pattern = "free.nix.biz.id", custom_domain = true },
+
+  # Wildcards
+  { pattern = "zoom.us.nix.biz.id", custom_domain = true },
   { pattern = "support.zoom.us.nix.biz.id", custom_domain = true },
   { pattern = "ava.game.naver.com.nix.biz.id", custom_domain = true },
   { pattern = "graph.instagram.com.nix.biz.id", custom_domain = true },
   { pattern = "df.game.naver.com.nix.biz.id", custom_domain = true },
-  { pattern = "zoomgov.com.nix.biz.id", custom_domain = true },
-  { pattern = "space.byu.id.nix.biz.id", custom_domain = true },
-  { pattern = "www.byu.id.nix.biz.id", custom_domain = true },
-  { pattern = "staging-csn.cancer.org.nix.biz.id", custom_domain = true }
+  { pattern = "quiz.int.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "vuclip.com.nix.biz.id", custom_domain = true },
+  { pattern = "go.appsflyer.com.nix.biz.id", custom_domain = true },
+  { pattern = "nontontv.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "ruangguru.com.nix.biz.id", custom_domain = true },
+  { pattern = "nontontv.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "quiz.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "quiz.staging.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "img.email1.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "token-media-vidio-com.akamaized.net.nix.biz.id", custom_domain = true },
+  { pattern = "support.vidio.com.nix.biz.id", custom_domain = true },
+  { pattern = "api.midtrans.com.nix.biz.id", custom_domain = true },
+  { pattern = "live.iflix.com.nix.biz.id", custom_domain = true },
+  { pattern = "investor.fb.com.nix.biz.id", custom_domain = true },
+  { pattern = "game.naver.com.nix.biz.id", custom_domain = true },
+  { pattern = "bakrie.ac.id.nix.biz.id", custom_domain = true },
+  { pattern = "edu.ruangguru.com.nix.biz.id", custom_domain = true },
+  { pattern = "fikom.esaunggul.ac.id.nix.biz.id", custom_domain = true },
+  { pattern = "ava.line.naver.com.nix.biz.id", custom_domain = true },
+  { pattern = "cache.netflix.com.nix.biz.id", custom_domain = true }
 ]
 
 [[kv_namespaces]]
